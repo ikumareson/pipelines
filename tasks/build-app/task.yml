@@ -7,7 +7,7 @@ image_resource:
 
 inputs:
   - name: app-pipeline
-  - name: app-repo
+  - name: spring-music
 
 outputs:
   - name: spring-music-app

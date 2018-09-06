@@ -7,7 +7,7 @@ resources:
     branch: master
     private_key: ((git_ssh_key))
 
-- name: app-repo
+- name: spring-music
   type: git
   source:
     uri: git@github.com:cloudfoundry-samples/spring-music.git
@@ -19,7 +19,7 @@ jobs:
 - name: deploy-app
   plan:
   - get: app-pipeline
-  - get: app-repo
+  - get: spring-music
   - task: build-app
     file: app-pipeline/tasks/build-app/task.yml
   - task: deploy-app

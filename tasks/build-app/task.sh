@@ -1,9 +1,9 @@
 #!/bin/bash
 
-pushd app-repo
+pushd spring-music
 ./gradlew clean assemble
 popd
 
-cp -r app-repo/* spring-music-app/
+cp -r spring-music/* spring-music-app/
 
 ls spring-music-app/build/
