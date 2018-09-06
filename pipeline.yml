@@ -14,14 +14,42 @@ resources:
     branch: master
     private_key: ((git_ssh_key))
 
+- name: build-store
+  type: s3
+  source:
+    bucket: ((app_bucket))
+    access_key_id: ((app_storage_account_name))
+    secret_access_key: ((app_storage_account_key))
+    regexp: app-build-(.*).tar.gz
+    endpoint: https://developers.((minio_domain))
+    skip_ssl_verification: true
+
 jobs:
+
+- name: build-app
+  serial: true
+  max_in_flight: 1
+  ensure:
+    put: build-store
+    params:
+      file: compressed-build/app-build-(.*).tar.gz
+  plan:
+  - aggregate:
+    - get: app-pipeline
+    - get: spring-music
+    - get: build-store
+
+  - task: build-app
+    file: app-pipeline/tasks/build-app/task.yml
+      
+  - task: upload-build
+    file: app-pipeline/tasks/upload-build/task.yml
 
 - name: deploy-app
   plan:
   - get: app-pipeline
   - get: spring-music
-  - task: build-app
-    file: app-pipeline/tasks/build-app/task.yml
+
   - task: deploy-app
     file: app-pipeline/tasks/deploy-app/task.yml    
     params:
