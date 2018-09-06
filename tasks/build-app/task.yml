@@ -9,5 +9,8 @@ inputs:
   - name: app-pipeline
   - name: app-repo
 
+outputs:
+  - name: spring-music-app
+
 run: 
   path: app-pipeline/tasks/build-app/task.sh
