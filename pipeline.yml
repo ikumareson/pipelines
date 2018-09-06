@@ -49,7 +49,7 @@ jobs:
   plan:
   - get: app-pipeline
   - get: spring-music
-
+    passed: [build-app]
   - task: deploy-app
     file: app-pipeline/tasks/deploy-app/task.yml    
     params:
