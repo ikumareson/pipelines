@@ -1,1 +1,7 @@
 git_ssh_key: ((git_ssh_key.private_key))
+cf_endpoint: https://api.sys.nonprod.dryice01.in.hclcnlabs.com
+cf_user: ((cf_user))
+cf_password: ((cf_password))
+cf_org: DryIce
+cf_space: Dev
+

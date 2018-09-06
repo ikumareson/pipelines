@@ -22,3 +22,11 @@ jobs:
   - get: app-repo
   - task: build-app
     file: app-pipeline/tasks/build-app/task.yml
+  - task: deploy-app
+    file: app-pipeline/tasks/deploy-app/task.yml    
+    params:
+      CF_ENDPOINT: ((cf_endpoint))
+      CF_USER: ((cf_user))
+      CF_PASSWORD: ((cf_password))
+      CF_ORG: ((cf_org))
+      CF_SPACE: ((cf_space))
