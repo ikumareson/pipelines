@@ -1,0 +1,24 @@
+resources:
+
+- name: app-pipeline
+  type: git
+  source:
+    uri: git@github.com:ikumareson/pipelines.git
+    branch: master
+    private_key: ((git_ssh_key))
+
+- name: app-repo
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry-samples/spring-music.git
+    branch: master
+    private_key: ((git_ssh_key))
+
+jobs:
+
+- name: deploy-app
+  plan:
+  - get: app-pipeline
+  - get: app-repo
+  - task: build-app
+    file: app-pipeline/tasks/build-app/task.yml
