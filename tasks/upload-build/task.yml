@@ -9,7 +9,6 @@ image_resource:
 inputs:
   - name: app-pipeline
   - name: spring-music-app
-  - name: build-store
 
 outputs:
   - name: compressed-build
