@@ -14,3 +14,4 @@ outputs:
 
 run: 
   path: app-pipeline/tasks/build-app/task.sh
+  user: root
