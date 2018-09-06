@@ -4,4 +4,8 @@ cf_user: ((cf_user))
 cf_password: ((cf_password))
 cf_org: DryIce
 cf_space: Dev
+app_bucket: spring-music
+app_storage_account_name: indryice01devs
+app_storage_account_key: ((app_storage_account_key))
+
 
