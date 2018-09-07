@@ -43,8 +43,8 @@ jobs:
 - name: deploy-app
   plan:
   - get: build-store
-  - get: app-pipeline
     passed: [build-app]
+  - get: app-pipeline
   - task: deploy-app
     file: app-pipeline/tasks/deploy-app/task.yml    
     params:
