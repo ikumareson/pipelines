@@ -2,7 +2,7 @@
 
 set -e 
 
-tar xzvf build-store/*.tgz
+tar xzvf build-store/*.tar.gz
 
 pushd spring-music
 cf api $CF_ENDPOINT --skip-ssl-validation
