@@ -44,6 +44,7 @@ jobs:
   plan:
   - get: build-store
     passed: [build-app]
+    trigger: true
   - get: app-pipeline
   - task: deploy-app
     file: app-pipeline/tasks/deploy-app/task.yml    
