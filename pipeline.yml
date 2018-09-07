@@ -20,7 +20,7 @@ resources:
     bucket: ((app_bucket))
     access_key_id: ((app_storage_account_name))
     secret_access_key: ((app_storage_account_key))
-    regexp: app-build-(.*).tar.gz
+    regexp: spring-music-([0-9]+).tar.gz
     endpoint: https://developers.minio.dryice01.in.hclcnlabs.com
     skip_ssl_verification: true
 
@@ -32,7 +32,7 @@ jobs:
   ensure:
     put: build-store
     params:
-      file: compressed-build/app-build-(.*).tar.gz
+      file: spring-music-build/spring-music-([0-9]+).tar.gz
   plan:
   - aggregate:
     - get: app-pipeline
@@ -40,8 +40,6 @@ jobs:
     - get: build-store
   - task: build-app
     file: app-pipeline/tasks/build-app/task.yml
-  - task: upload-build
-    file: app-pipeline/tasks/upload-build/task.yml
 
 - name: deploy-app
   plan:

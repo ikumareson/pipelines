@@ -4,6 +4,8 @@ pushd spring-music
 ./gradlew clean assemble
 popd
 
-cp -r spring-music/* spring-music-app/
+timestamp="$(date +'%Y%m%d%H%M%S')"
 
-ls spring-music-app/build/
+
+
+tar czvf spring-music-build/spring-music-${timestamp}.tar.gz spring-music

@@ -10,7 +10,7 @@ inputs:
   - name: spring-music
 
 outputs:
-  - name: spring-music-app
+  - name: spring-music-build
 
 run: 
   path: app-pipeline/tasks/build-app/task.sh
