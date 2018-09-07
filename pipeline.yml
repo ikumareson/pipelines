@@ -47,6 +47,7 @@ jobs:
 
 - name: deploy-app
   plan:
+  - get: build-store
   - get: app-pipeline
     passed: [build-app]
   - task: deploy-app
