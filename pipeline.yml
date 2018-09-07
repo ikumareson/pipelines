@@ -41,10 +41,19 @@ jobs:
   - task: build-app
     file: app-pipeline/tasks/build-app/task.yml
 
-- name: deploy-app
+- name: test-app
   plan:
   - get: build-store
     passed: [build-app]
+    trigger: true
+  - get: app-pipeline
+  - task: test-app
+    file: app-pipeline/tasks/test-app/task.yml  
+
+- name: deploy-app
+  plan:
+  - get: build-store
+    passed: [test-app]
     trigger: true
   - get: app-pipeline
   - task: deploy-app
@@ -55,3 +64,5 @@ jobs:
       CF_PASSWORD: ((cf_password))
       CF_ORG: ((cf_org))
       CF_SPACE: ((cf_space))
+
+
