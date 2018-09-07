@@ -10,7 +10,7 @@ resources:
 - name: spring-music
   type: git
   source:
-    uri: git@github.com:cloudfoundry-samples/spring-music.git
+    uri: git@github.com:ikumareson/spring-music.git
     branch: master
     private_key: ((git_ssh_key))
 
@@ -37,6 +37,7 @@ jobs:
   - aggregate:
     - get: app-pipeline
     - get: spring-music
+      trigger: true
   - task: build-app
     file: app-pipeline/tasks/build-app/task.yml
 
