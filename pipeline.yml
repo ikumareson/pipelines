@@ -37,7 +37,6 @@ jobs:
   - aggregate:
     - get: app-pipeline
     - get: spring-music
-    - get: build-store
   - task: build-app
     file: app-pipeline/tasks/build-app/task.yml
 
