@@ -32,7 +32,7 @@ jobs:
   ensure:
     put: build-store
     params:
-      file: spring-music-build/spring-music-([0-9]+).tar.gz
+      file: spring-music-build/spring-music-*.tar.gz
   plan:
   - aggregate:
     - get: app-pipeline
