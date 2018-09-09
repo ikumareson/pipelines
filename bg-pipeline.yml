@@ -1,0 +1,88 @@
+resources:
+
+- name: app-pipeline
+  type: git
+  source:
+    uri: git@github.com:ikumareson/pipelines.git
+    branch: master
+    private_key: ((git_ssh_key))
+
+- name: spring-music
+  type: git
+  source:
+    uri: git@github.com:ikumareson/spring-music.git
+    branch: master
+    private_key: ((git_ssh_key))
+
+- name: build-store
+  type: s3
+  source:
+    bucket: ((app_bucket))
+    access_key_id: ((app_storage_account_name))
+    secret_access_key: ((app_storage_account_key))
+    regexp: spring-music-([0-9]+).tar.gz
+    endpoint: https://developers.minio.dryice01.in.hclcnlabs.com
+    skip_ssl_verification: true
+
+jobs:
+
+- name: build-app
+  serial: true
+  max_in_flight: 1
+  ensure:
+    put: build-store
+    params:
+      file: spring-music-build/spring-music-*.tar.gz
+  plan:
+  - aggregate:
+    - get: app-pipeline
+    - get: spring-music
+      trigger: true
+  - task: build-app
+    file: app-pipeline/tasks/build-app/task.yml
+
+- name: test-app
+  plan:
+  - get: build-store
+    passed: [build-app]
+    trigger: true
+  - get: app-pipeline
+  - task: test-app
+    file: app-pipeline/tasks/test-app/task.yml  
+
+- name: deploy-app
+  plan:
+  - get: build-store
+    passed: [test-app]
+    trigger: true
+  - get: app-pipeline
+  - task: deploy-app
+    file: app-pipeline/tasks/deploy-app/task.yml    
+    params:
+      CF_ENDPOINT: ((cf_endpoint))
+      CF_USER: ((cf_user))
+      CF_PASSWORD: ((cf_password))
+      CF_ORG: ((cf_org))
+      CF_SPACE: ((cf_space))
+
+- name: test-deploy
+  plan:
+    passed: [deploy-app]
+    trigger: true
+  - get: app-pipeline
+  - task: test-app
+    file: app-pipeline/tasks/test-deploy/task.yml  
+
+- name: enable-app
+  plan:
+  - get: app-pipeline
+    passed: [deploy-app]
+    trigger: true  
+  - task: enable-app
+    file: app-pipeline/tasks/enable-app/task.yml    
+    params:
+      CF_ENDPOINT: ((cf_endpoint))
+      CF_USER: ((cf_user))
+      CF_PASSWORD: ((cf_password))
+      CF_ORG: ((cf_org))
+      CF_SPACE: ((cf_space))
