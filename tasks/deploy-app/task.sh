@@ -1,5 +1,7 @@
 #!/bin/bash
  
+tar xzvf build-store/*.tar.gz
+ 
 pushd spring-music 
 
 cf api $CF_ENDPOINT --skip-ssl-validation
