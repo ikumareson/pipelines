@@ -1,0 +1,19 @@
+platform: linux
+image_resource: 
+  type: docker-image
+  source:
+    repository: pcfnorm/rootfs
+    tag: latest
+
+inputs:
+  - name: app-pipeline
+
+run: 
+  path: app-pipeline/tasks/enable-app/task.sh
+
+params:
+  CF_ENDPOINT:
+  CF_USER:
+  CF_PASSWORD:
+  CF_ORG:
+  CF_SPACE:
