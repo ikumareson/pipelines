@@ -67,16 +67,16 @@ jobs:
 
 - name: test-deploy
   plan:
+  - get: app-pipeline
     passed: [deploy-app]
     trigger: true
-  - get: app-pipeline
   - task: test-app
     file: app-pipeline/tasks/test-deploy/task.yml  
 
 - name: enable-app
   plan:
   - get: app-pipeline
-    passed: [deploy-app]
+    passed: [test-deploy]
     trigger: true  
   - task: enable-app
     file: app-pipeline/tasks/enable-app/task.yml    
