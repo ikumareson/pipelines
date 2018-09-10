@@ -70,7 +70,7 @@ jobs:
   - get: app-pipeline
     passed: [deploy-app]
     trigger: true
-  - task: test-app
+  - task: test-deploy
     file: app-pipeline/tasks/test-deploy/task.yml  
 
 - name: enable-app
